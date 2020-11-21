@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="php_1.css">
+    <title>Online Cab Booking</title>
+    <script type="text/javascript">
+        function ty(){
+            var cab = document.getElementById("dropdown3").value;
+            console.log(cab);
+            if(cab === "CedMicro"){
+                $("#textinput").attr("disabled",true);
+                alert("disabled");
+            }else{
+                 $("#textinput").attr("disabled",false);
+            }
+        }
+        function cal(){
+            var pickup = $("#pickup").val();
+            var drop =$("#drop").val();
+            var cab = $("#dropdown3").val();
+            var textinput = $("#textinput").val();
+            if(pickup===drop){
+                alert("choose other destination");
+            }
+            $.ajax({
+                url:'php_1.php',
+                type:'POST',
+                data:{pickup:pickup,drop:drop,cab:cab,textinput:textinput},
+                success: function(result){
+                    console.log(result);
+                    $("#result").text("total fare is :" + result);
+                },
+                error: function(){
+                    alert("error");
+                }
+            });
+        }
+        function onlynumber(button){
+                var code=button.which;
+                if (code>31 && (code<48)|| (code>57))
+                    return false;
+                return true;
+            }
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand logo" href="#">LOGO</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="#">Home</a>
+                <a class="nav-item nav-link" href="#">LINK1</a>
+                <a class="nav-item nav-link" href="#">LINK2</a>
+                <a class="nav-item nav-link" href="#">LINK3</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="container text-center">
+            <h1 class="h1">Book a City Taxi to your destination in town</h1>
+            <p>Choose from a range of categories and prices</p>
+            <div class="row text-dark">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <span id="header">CITY TAXI</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Your everyday travel partner</h5>
+                            <h6>AC Cabs for point to point travel</h6>
+                            <form action="#" method="post">
+                                <div class="input-group mb-3">
+                                    <select class="form-control g" id="pickup"  onchange="disable()"required="required">
+                                        <option selected disabled >Current Location</option>
+                                        <option value="Charbagh">Charbagh</option>
+                                        <option value="Indira Nagar">Indira Nagar</option>
+                                        <option value="BBD">BBD</option>
+                                        <option value="Barabanki">Barabanki</option>
+                                        <option value="Faizabad">Faizabad</option>
+                                        <option value="Basti">Basti</option>
+                                        <option value="Gorakhpur">Gorakhpur</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <select class="form-control g" id="drop" required="required">
+                                    <option selected disabled >Enter drop for ride estimate</option>
+                                        <option value ="Charbagh">Charbagh</option>
+                                        <option value="Indira Nagar">Indira Nagar</option>
+                                        <option value="BBD">BBD</option>
+                                        <option value="Barabanki">Barabanki</option>
+                                        <option value="Faizabad">Faizabad</option>
+                                        <option value="Basti">Basti</option>
+                                        <option value="Gorakhpur">Gorakhpur</option>
+                                    </select>
+                                </div>
+                                </div>
+                                <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <select class="form-control g" id="dropdown3" onchange="ty()" required="required">
+                                    <option selected disabled >Drop down to select CAB Type</option>
+                                        <option value="CedMicro">CedMicro</option>
+                                        <option value="CedMini">CedMini</option>
+                                        <option value="CedRoyal">CedRoyal</option>
+                                        <option value="CedSUV">CedSUV</option>
+                                    </select>
+                                </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control input" onkeypress="return onlynumber(event)" id="textinput" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Enter weight in kg">
+                                </div>
+                            </form>
+                            <button id="cal" onclick="cal()">Calculate Fare</button><br><br>
+                            <p id="result" style="color: black"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="page-footer font-small">
+        <div class="footer-copyright text-center py-3">
+            <a href="#"><i class="fa fa-facebook-square"></i></a>
+            <a href="#"><i class="fa fa-twitter-square"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+            © 2020 Copyright:
+            <a href="https://mdbootstrap.com/"> Cab_service.com</a>
+        </div>
+    </footer>
+   </body>
+</html>
